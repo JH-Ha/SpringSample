@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dao.UserDao;
 import entity.User;
@@ -50,8 +51,9 @@ public class LoginServlet extends HttpServlet {
 
 		UserDao userDao = new UserDao();
 		User user = userDao.get(id, password);
+		HttpSession session = request.getSession();
 		if (user != null) {
-
+			session.setAttribute("user", user);
 			response.sendRedirect(request.getContextPath() + "/board");
 		} else {
 			response.sendRedirect(request.getContextPath() + "/error.jsp");
