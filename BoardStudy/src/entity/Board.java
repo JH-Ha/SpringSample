@@ -61,4 +61,10 @@ public class Board {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	@Override
+	public String toString() {
+		return "Board [no=" + no + ", title=" + title + ", content=" + content + ", writeDate=" + writeDate + ", id="
+				+ id + ", name=" + name + "]";
+	}
 }

@@ -11,6 +11,19 @@ import java.util.List;
 import entity.Board;
 
 public class BoardDao {
+
+	private Connection getConnection() throws ClassNotFoundException, SQLException {
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		String url = "jdbc:mysql://localhost/study?serverTimezone=UTC";
+
+		String dbId = "root";
+		String dbPw = "admin";
+
+		Connection conn = DriverManager.getConnection(url, dbId, dbPw);
+
+		return conn;
+	}
+
 	public List<Board> getBoardList() {
 		List<Board> boardList = new ArrayList<Board>();
 
@@ -18,13 +31,9 @@ public class BoardDao {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			String url = "jdbc:mysql://localhost/study?serverTimezone=UTC";
 
-			String dbId = "root";
-			String dbPw = "admin";
+			conn = getConnection();
 
-			conn = DriverManager.getConnection(url, dbId, dbPw);
 			String sql = "select * from board order by no desc";
 			pstmt = conn.prepareStatement(sql);
 			rset = pstmt.executeQuery();
@@ -79,13 +88,8 @@ public class BoardDao {
 		PreparedStatement pstmt = null;
 		int cnt = -1;
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			String url = "jdbc:mysql://localhost/study?serverTimezone=UTC";
 
-			String dbId = "root";
-			String dbPw = "admin";
-
-			conn = DriverManager.getConnection(url, dbId, dbPw);
+			conn = getConnection();
 			String sql = "insert into board(no,title, content, write_date, id,name)"
 					+ " values((select ifnull(max(no),0) + 1 from (select * from board) b),?,?,sysdate(),?,?)";
 			pstmt = conn.prepareStatement(sql);
