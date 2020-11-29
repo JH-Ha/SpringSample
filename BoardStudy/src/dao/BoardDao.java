@@ -1,29 +1,20 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import connection.ConnectionMaker;
 import entity.Board;
 
 public class BoardDao {
+	private ConnectionMaker connectionMaker;
 
-	private Connection getConnection() throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.cj.jdbc.Driver");
-		// String url = "jdbc:mysql://localhost/study?serverTimezone=UTC";
-
-		// String dbId = "root";
-		// String dbPw = "admin";
-		String url = "jdbc:mysql://database-study-spring.chsxiosrbq1b.ap-northeast-2.rds.amazonaws.com:3306/sys";
-		String dbId = "admin";
-		String dbPw = "6s8GJggs8q9Ol3biXshz";
-		Connection conn = DriverManager.getConnection(url, dbId, dbPw);
-		// Connection conn = DriverManager.getConnection(url);
-		return conn;
+	public BoardDao(ConnectionMaker connectionMaker) {
+		this.connectionMaker = connectionMaker;
 	}
 
 	public List<Board> getBoardList() {
@@ -34,7 +25,7 @@ public class BoardDao {
 		ResultSet rset = null;
 		try {
 
-			conn = getConnection();
+			conn = this.connectionMaker.makeConnection();
 
 			String sql = "select * from board order by no desc";
 			pstmt = conn.prepareStatement(sql);
@@ -91,7 +82,7 @@ public class BoardDao {
 		int cnt = -1;
 		try {
 
-			conn = getConnection();
+			conn = this.connectionMaker.makeConnection();
 			String sql = "insert into board(no,title, content, write_date, id,name)"
 					+ " values((select ifnull(max(no),0) + 1 from (select * from board) b),?,?,sysdate(),?,?)";
 			pstmt = conn.prepareStatement(sql);

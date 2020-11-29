@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import connection.AwsConnectionMaker;
+import connection.ConnectionMaker;
 import dao.BoardDao;
 import entity.Board;
 
@@ -36,7 +38,9 @@ public class BoardServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		// response.getWriter().append("Served at: ").append(request.getContextPath());
-		BoardDao boardDao = new BoardDao();
+		ConnectionMaker connectionMaker = new AwsConnectionMaker();
+		BoardDao boardDao = new BoardDao(connectionMaker);
+
 		List<Board> boardList = boardDao.getBoardList();
 		request.setAttribute("boardList", boardList);
 		RequestDispatcher rd = request.getRequestDispatcher("board.jsp");
