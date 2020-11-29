@@ -14,13 +14,15 @@ public class BoardDao {
 
 	private Connection getConnection() throws ClassNotFoundException, SQLException {
 		Class.forName("com.mysql.cj.jdbc.Driver");
-		String url = "jdbc:mysql://localhost/study?serverTimezone=UTC";
+		// String url = "jdbc:mysql://localhost/study?serverTimezone=UTC";
 
-		String dbId = "root";
-		String dbPw = "admin";
-
+		// String dbId = "root";
+		// String dbPw = "admin";
+		String url = "jdbc:mysql://database-study-spring.chsxiosrbq1b.ap-northeast-2.rds.amazonaws.com:3306/sys";
+		String dbId = "admin";
+		String dbPw = "6s8GJggs8q9Ol3biXshz";
 		Connection conn = DriverManager.getConnection(url, dbId, dbPw);
-
+		// Connection conn = DriverManager.getConnection(url);
 		return conn;
 	}
 
