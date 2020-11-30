@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import dao.DaoFactory;
 import dao.UserDao;
 import entity.User;
 
@@ -49,7 +50,7 @@ public class LoginServlet extends HttpServlet {
 		String id = request.getParameter("id");
 		String password = request.getParameter("password");
 
-		UserDao userDao = new UserDao();
+		UserDao userDao = new DaoFactory().userDao();
 		User user = userDao.get(id, password);
 		HttpSession session = request.getSession();
 		if (user != null) {

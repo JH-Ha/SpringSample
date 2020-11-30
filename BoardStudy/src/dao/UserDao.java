@@ -1,26 +1,18 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import connection.ConnectionMaker;
 import entity.User;
 
 public class UserDao {
-	private Connection getConnection() throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.cj.jdbc.Driver");
-		// String url = "jdbc:mysql://localhost/study?serverTimezone=UTC";
+	private ConnectionMaker connectionMaker;
 
-		// String dbId = "root";
-		// String dbPw = "admin";
-		String url = "jdbc:mysql://database-study-spring.chsxiosrbq1b.ap-northeast-2.rds.amazonaws.com:3306/sys";
-		String dbId = "admin";
-		String dbPw = "6s8GJggs8q9Ol3biXshz";
-		Connection conn = DriverManager.getConnection(url, dbId, dbPw);
-		// Connection conn = DriverManager.getConnection(url);
-		return conn;
+	public UserDao(ConnectionMaker connectionMaker) {
+		this.connectionMaker = connectionMaker;
 	}
 
 	public User get(String id, String password) {
@@ -30,7 +22,7 @@ public class UserDao {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		try {
-			conn = getConnection();
+			conn = this.connectionMaker.makeConnection();
 			String sql = "select * from user where id = ? and password = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
