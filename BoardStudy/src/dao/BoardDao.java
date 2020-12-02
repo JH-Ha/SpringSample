@@ -13,6 +13,14 @@ import entity.Board;
 public class BoardDao {
 	private ConnectionMaker connectionMaker;
 
+	public BoardDao() {
+
+	}
+
+	public void setConnectionMaker(ConnectionMaker connectionMaker) {
+		this.connectionMaker = connectionMaker;
+	}
+
 	public BoardDao(ConnectionMaker connectionMaker) {
 		this.connectionMaker = connectionMaker;
 	}

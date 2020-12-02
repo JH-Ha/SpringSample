@@ -15,7 +15,8 @@ public class DaoFactory {
 
 	@Bean
 	public BoardDao boardDao() {
-		BoardDao boardDao = new BoardDao(connectionMaker());
+		BoardDao boardDao = new BoardDao();
+		boardDao.setConnectionMaker(connectionMaker());
 		return boardDao;
 	}
 
