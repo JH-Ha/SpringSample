@@ -10,9 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import connection.AwsConnectionMaker;
-import connection.ConnectionMaker;
 import dao.BoardDao;
+import dao.DaoFactory;
 import entity.User;
 
 /**
@@ -56,9 +55,7 @@ public class BoardWriteServlet extends HttpServlet {
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
 
-		ConnectionMaker connectionMaker = new AwsConnectionMaker();
-
-		BoardDao boardDao = new BoardDao(connectionMaker);
+		BoardDao boardDao = new DaoFactory().boardDao();
 		boardDao.insertBoard(title, content, user.getId(), user.getName());
 		response.sendRedirect(request.getContextPath() + "/board");
 	}

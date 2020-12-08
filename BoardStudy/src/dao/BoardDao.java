@@ -7,22 +7,23 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import connection.ConnectionMaker;
+import javax.sql.DataSource;
+
 import entity.Board;
 
 public class BoardDao {
-	private ConnectionMaker connectionMaker;
+	private DataSource dataSource;
 
 	public BoardDao() {
 
 	}
 
-	public void setConnectionMaker(ConnectionMaker connectionMaker) {
-		this.connectionMaker = connectionMaker;
+	public void setDataSource(DataSource dataSource) {
+		this.dataSource = dataSource;
 	}
 
-	public BoardDao(ConnectionMaker connectionMaker) {
-		this.connectionMaker = connectionMaker;
+	public BoardDao(DataSource dataSource) {
+		this.dataSource = dataSource;
 	}
 
 	public List<Board> getBoardList() {
@@ -33,7 +34,7 @@ public class BoardDao {
 		ResultSet rset = null;
 		try {
 
-			conn = this.connectionMaker.makeConnection();
+			conn = this.dataSource.getConnection();
 
 			String sql = "select * from board order by no desc";
 			pstmt = conn.prepareStatement(sql);
@@ -49,9 +50,6 @@ public class BoardDao {
 				boardList.add(board);
 			}
 
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -90,7 +88,7 @@ public class BoardDao {
 		int cnt = -1;
 		try {
 
-			conn = this.connectionMaker.makeConnection();
+			conn = this.dataSource.getConnection();
 			String sql = "insert into board(no,title, content, write_date, id,name)"
 					+ " values((select ifnull(max(no),0) + 1 from (select * from board) b),?,?,sysdate(),?,?)";
 			pstmt = conn.prepareStatement(sql);
@@ -100,9 +98,6 @@ public class BoardDao {
 			pstmt.setString(4, name);
 			cnt = pstmt.executeUpdate();
 
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
