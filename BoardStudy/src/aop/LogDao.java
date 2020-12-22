@@ -1,8 +1,13 @@
 package aop;
 
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
 
+@Aspect
 public class LogDao {
+
+	@Around("execution(public * dao.*.*(..))")
 	public Object logging(ProceedingJoinPoint joinPoint) throws Throwable {
 		String signatureString = joinPoint.getSignature().toShortString();
 		System.out.println(signatureString + "시작");

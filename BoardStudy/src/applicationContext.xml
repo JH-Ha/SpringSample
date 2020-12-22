@@ -15,14 +15,12 @@
             http://www.springframework.org/schema/util/spring-util-4.3.xsd
             http://www.springframework.org/schema/task 
             http://www.springframework.org/schema/task/spring-task-4.3.xsd">
-            
-    <bean id="logDao" class="aop.LogDao"/> 
-    <aop:config>
-    	<aop:aspect id="traceAspect" ref="logDao">
-    		<aop:pointcut id="publicMethod" expression="execution(* * dao..*(..))"/>
-    		<aop:around method="trace" pointcut-ref="publicMethod"/>
-    	</aop:aspect>
-    </aop:config>
+
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+	<bean id="logDao" class="aop.LogDao" />
+	<!-- <aop:config> <aop:pointcut id="publicMethod" expression="execution(* 
+		dao..*(..))" /> <aop:aspect id="traceAspect" ref="logDao"> <aop:around method="trace" 
+		pointcut-ref="publicMethod"/> </aop:aspect> </aop:config> -->
 	<bean id="connectionMaker" class="connection.AwsConnectionMaker" />
 
 
@@ -31,7 +29,7 @@
 		<property name="driverClass" value="com.mysql.cj.jdbc.Driver" />
 		<property name="url"
 			value="jdbc:mysql://database-study-spring.chsxiosrbq1b.ap-northeast-2.rds.amazonaws.com:3306/sys" />
-		<property name="username" value="admin"/>
+		<property name="username" value="admin" />
 		<property name="password" value="6s8GJggs8q9Ol3biXshz" />
 	</bean>
 	<bean id="boardDao" class="dao.BoardDao">
