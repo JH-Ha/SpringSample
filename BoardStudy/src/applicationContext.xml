@@ -15,6 +15,14 @@
             http://www.springframework.org/schema/util/spring-util-4.3.xsd
             http://www.springframework.org/schema/task 
             http://www.springframework.org/schema/task/spring-task-4.3.xsd">
+            
+    <bean id="logDao" class="aop.LogDao"/> 
+    <aop:config>
+    	<aop:aspect id="traceAspect" ref="logDao">
+    		<aop:pointcut id="publicMethod" expression="execution(* * dao..*(..))"/>
+    		<aop:around method="trace" pointcut-ref="publicMethod"/>
+    	</aop:aspect>
+    </aop:config>
 	<bean id="connectionMaker" class="connection.AwsConnectionMaker" />
 
 
