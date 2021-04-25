@@ -15,9 +15,9 @@ class RateDiscountPolicyTest {
     @DisplayName("VIP는 10% 할인이 적용되어야 한다")
     void vip_o(){
         Member member = new Member(1L, "memberVIP", Grade.VIP);
-        int discount = discountPolicy.discount(member, 10000);
+        int discount = discountPolicy.discount(member, 20000);
 
-        Assertions.assertThat(discount).isEqualTo(1000);
+        Assertions.assertThat(discount).isEqualTo(2000);
     }
 
     @Test
