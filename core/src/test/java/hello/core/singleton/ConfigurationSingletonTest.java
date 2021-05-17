@@ -13,12 +13,12 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 public class ConfigurationSingletonTest {
 
     @Test
-    void configurationTest(){
+    void configurationTest() {
         ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
 
         MemberServiceImpl memberSerive = ac.getBean("memberService", MemberServiceImpl.class);
         OrderServiceImpl orderSerive = ac.getBean("orderService", OrderServiceImpl.class);
-        MemberRepository memberRepository =  ac.getBean("memberRepository", MemberRepository.class);
+        MemberRepository memberRepository = ac.getBean("memberRepository", MemberRepository.class);
 
         MemberRepository memberRepository1 = memberSerive.getMemberRepository();
         MemberRepository memberRepository2 = orderSerive.getMemberRepository();
@@ -29,5 +29,13 @@ public class ConfigurationSingletonTest {
 
         Assertions.assertThat(memberSerive.getMemberRepository()).isSameAs(memberRepository);
         Assertions.assertThat(orderSerive.getMemberRepository()).isSameAs(memberRepository);
+    }
+
+    @Test
+    void configurationDeep() {
+        ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
+        AppConfig bean = ac.getBean(AppConfig.class);
+
+        System.out.println("bean = " + bean.getClass());
     }
 }
