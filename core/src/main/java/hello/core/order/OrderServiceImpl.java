@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class OrderServiceImpl implements OrderService{
+
+    //field injection is not recommend!!
+    //@Autowired
     private MemberRepository memberRepository ;
     //private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
     private DiscountPolicy discountPolicy;
