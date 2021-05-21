@@ -11,28 +11,11 @@ public class OrderServiceImpl implements OrderService{
 
     //field injection is not recommend!!
     //@Autowired
-    private MemberRepository memberRepository ;
+    private final MemberRepository memberRepository ;
     //private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
-    private DiscountPolicy discountPolicy;
-
-    @Autowired
-    public void setMemberRepository(MemberRepository memberRepository){
-        this.memberRepository = memberRepository;
-    }
-
-    @Autowired
-    public void setDiscountPolicy(DiscountPolicy discountPolicy){
-        this.discountPolicy = discountPolicy;
-    }
-
+    private final DiscountPolicy discountPolicy;
 
     public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
-        this.memberRepository = memberRepository;
-        this.discountPolicy = discountPolicy;
-    }
-
-    @Autowired
-    public void init(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;
     }
