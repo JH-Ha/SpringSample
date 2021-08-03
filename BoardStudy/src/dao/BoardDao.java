@@ -81,21 +81,14 @@ public class BoardDao {
 		return boardList;
 	}
 
-	public int insertBoard(String title, String content, String id, String name) {
-
+	public int jdbcContextWithStatementStrategy(StatementStrategy stmt) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		int cnt = -1;
 		try {
 
 			conn = this.dataSource.getConnection();
-			String sql = "insert into board(no,title, content, write_date, id,name)"
-					+ " values((select ifnull(max(no),0) + 1 from (select * from board) b),?,?,sysdate(),?,?)";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, title);
-			pstmt.setString(2, content);
-			pstmt.setString(3, id);
-			pstmt.setString(4, name);
+			pstmt = stmt.makePreparedStatement(conn);
 			cnt = pstmt.executeUpdate();
 
 		} catch (SQLException e) {
@@ -120,5 +113,19 @@ public class BoardDao {
 			}
 		}
 		return cnt;
+	}
+
+	public int insertBoard(String title, String content, String id, String name) {
+		return jdbcContextWithStatementStrategy((Connection conn) -> {
+			PreparedStatement pstmt;
+			String sql = "insert into board(no,title, content, write_date, id,name)"
+					+ " values((select ifnull(max(no),0) + 1 from (select * from board) b),?,?,sysdate(),?,?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, title);
+			pstmt.setString(2, content);
+			pstmt.setString(3, id);
+			pstmt.setString(4, name);
+			return pstmt;
+		});
 	}
 }
