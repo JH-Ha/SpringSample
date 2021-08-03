@@ -10,12 +10,18 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import entity.Board;
+import jdbc.JdbcContext;
 
 public class BoardDao {
 	private DataSource dataSource;
+	private JdbcContext jdbcContext;
 
 	public BoardDao() {
 
+	}
+
+	public void setJdbcContext(JdbcContext jdbcContext) {
+		this.jdbcContext = jdbcContext;
 	}
 
 	public void setDataSource(DataSource dataSource) {
@@ -81,42 +87,8 @@ public class BoardDao {
 		return boardList;
 	}
 
-	public int jdbcContextWithStatementStrategy(StatementStrategy stmt) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		int cnt = -1;
-		try {
-
-			conn = this.dataSource.getConnection();
-			pstmt = stmt.makePreparedStatement(conn);
-			cnt = pstmt.executeUpdate();
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			try {
-				if (pstmt != null) {
-					pstmt.close();
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return cnt;
-	}
-
 	public int insertBoard(String title, String content, String id, String name) {
-		return jdbcContextWithStatementStrategy((Connection conn) -> {
+		return jdbcContext.workWithStatementStrategy((Connection conn) -> {
 			PreparedStatement pstmt;
 			String sql = "insert into board(no,title, content, write_date, id,name)"
 					+ " values((select ifnull(max(no),0) + 1 from (select * from board) b),?,?,sysdate(),?,?)";

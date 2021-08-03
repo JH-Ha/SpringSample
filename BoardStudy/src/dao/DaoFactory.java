@@ -8,6 +8,7 @@ import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 
 import connection.AwsConnectionMaker;
 import connection.ConnectionMaker;
+import jdbc.JdbcContext;
 
 @Configuration
 public class DaoFactory {
@@ -37,6 +38,7 @@ public class DaoFactory {
 	public BoardDao boardDao() {
 		BoardDao boardDao = new BoardDao();
 		boardDao.setDataSource(dataSource());
+		boardDao.setJdbcContext(jdbcContext());
 		// boardDao.setConnectionMaker(connectionMaker());
 		return boardDao;
 	}
@@ -45,5 +47,12 @@ public class DaoFactory {
 	public UserDao userDao() {
 		UserDao userDao = new UserDao(connectionMaker());
 		return userDao;
+	}
+
+	@Bean
+	public JdbcContext jdbcContext() {
+		JdbcContext jdbcContext = new JdbcContext();
+		jdbcContext.setDataSource(dataSource());
+		return jdbcContext;
 	}
 }
