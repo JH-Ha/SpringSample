@@ -56,7 +56,8 @@ public class BoardWriteServlet extends HttpServlet {
 		String content = request.getParameter("content");
 
 		BoardDao boardDao = new DaoFactory().boardDao();
-		boardDao.insertBoard(title, content, user.getId(), user.getName());
+		// boardDao.insertBoard(title, content, user.getId(), user.getName());
+		boardDao.insertBoard(title, content, "testId", "testName");
 		response.sendRedirect(request.getContextPath() + "/board");
 	}
 
