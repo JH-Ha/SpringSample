@@ -1,4 +1,4 @@
-package servlet;
+package com.servlet;
 
 import java.io.IOException;
 
@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import dao.DaoFactory;
-import dao.UserDao;
-import entity.User;
+import com.dao.DaoFactory;
+import com.dao.UserDao;
+import com.entity.User;
 
 /**
  * Servlet implementation class LoginServlet

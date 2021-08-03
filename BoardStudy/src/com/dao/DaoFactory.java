@@ -1,4 +1,4 @@
-package dao;
+package com.dao;
 
 import javax.sql.DataSource;
 
@@ -6,9 +6,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 
-import connection.AwsConnectionMaker;
-import connection.ConnectionMaker;
-import jdbc.JdbcContext;
+import com.connection.AwsConnectionMaker;
+import com.connection.ConnectionMaker;
+import com.jdbc.JdbcContext;
 
 @Configuration
 public class DaoFactory {

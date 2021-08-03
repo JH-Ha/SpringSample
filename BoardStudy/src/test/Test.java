@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
 
-import dao.BoardDao;
-import entity.Board;
+import com.dao.BoardDao;
+import com.entity.Board;
 
 public class Test {
 	public static void main(String[] args) {

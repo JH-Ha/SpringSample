@@ -1,4 +1,4 @@
-package servlet;
+package com.servlet;
 
 import java.io.IOException;
 
@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import dao.BoardDao;
-import dao.DaoFactory;
-import entity.User;
+import com.dao.BoardDao;
+import com.dao.DaoFactory;
+import com.entity.User;
 
 /**
  * Servlet implementation class BoardServlet

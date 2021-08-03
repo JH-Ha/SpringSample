@@ -1,4 +1,4 @@
-package dao;
+package com.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,8 +9,8 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import entity.Board;
-import jdbc.JdbcContext;
+import com.entity.Board;
+import com.jdbc.JdbcContext;
 
 public class BoardDao {
 	private DataSource dataSource;
