@@ -4,6 +4,7 @@ import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 
 import com.connection.AwsConnectionMaker;
@@ -54,5 +55,10 @@ public class DaoFactory {
 		JdbcContext jdbcContext = new JdbcContext();
 		jdbcContext.setDataSource(dataSource());
 		return jdbcContext;
+	}
+
+	@Bean
+	public JdbcTemplate jdbcTemplate() {
+		return new JdbcTemplate(dataSource());
 	}
 }

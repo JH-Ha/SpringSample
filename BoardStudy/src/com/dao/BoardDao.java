@@ -9,12 +9,18 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+
 import com.entity.Board;
 import com.jdbc.JdbcContext;
 
 public class BoardDao {
 	private DataSource dataSource;
 	private JdbcContext jdbcContext;
+
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 
 	public BoardDao() {
 
@@ -88,16 +94,9 @@ public class BoardDao {
 	}
 
 	public int insertBoard(String title, String content, String id, String name) {
-		return jdbcContext.workWithStatementStrategy((Connection conn) -> {
-			PreparedStatement pstmt;
-			String sql = "insert into board(no,title, content, write_date, id,name)"
-					+ " values((select ifnull(max(no),0) + 1 from (select * from board) b),?,?,sysdate(),?,?)";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, title);
-			pstmt.setString(2, content);
-			pstmt.setString(3, id);
-			pstmt.setString(4, name);
-			return pstmt;
-		});
+		return jdbcTemplate.update(
+				"insert into board(no,title, content, write_date, id,name)"
+						+ " values((select ifnull(max(no),0) + 1 from (select * from board) b),?,?,sysdate(),?,?)",
+				title, content, id, name);
 	}
 }
