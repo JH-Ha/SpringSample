@@ -40,6 +40,7 @@ public class DaoFactory {
 		BoardDao boardDao = new BoardDao();
 		boardDao.setDataSource(dataSource());
 		boardDao.setJdbcContext(jdbcContext());
+		boardDao.setJdbcTemplate(jdbcTemplate());
 		// boardDao.setConnectionMaker(connectionMaker());
 		return boardDao;
 	}
