@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -31,6 +33,13 @@ public class BoardController {
 		return "board";
 		// RequestDispatcher rd = request.getRequestDispatcher("board.jsp");
 		// rd.forward(request, response);
+	}
+
+	@GetMapping("article/{id}")
+	public String getArticle(Model model, @PathVariable(name = "id") Integer id) {
+		Board board = boardDao.getArticle(id);
+		model.addAttribute("article", board);
+		return "article";
 	}
 
 	@RequestMapping("write")

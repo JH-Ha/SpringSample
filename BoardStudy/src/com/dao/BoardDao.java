@@ -6,6 +6,7 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 
 import com.entity.Board;
 import com.jdbc.JdbcContext;
@@ -32,18 +33,23 @@ public class BoardDao {
 		this.dataSource = dataSource;
 	}
 
-	public List<Board> getBoardList() {
-		return jdbcTemplate.query("select * from board order by no desc", (ResultSet rset, int rowNum) -> {
-			Board board = new Board();
-			board.setNo(rset.getInt("no"));
-			board.setTitle(rset.getString("title"));
-			board.setContent(rset.getString("content"));
-			board.setWriteDate(rset.getDate("write_date"));
-			board.setId(rset.getString("id"));
-			board.setName(rset.getString("name"));
-			return board;
-		});
+	private RowMapper<Board> articleMapper = (ResultSet rset, int rowNum) -> {
+		Board board = new Board();
+		board.setNo(rset.getInt("no"));
+		board.setTitle(rset.getString("title"));
+		board.setContent(rset.getString("content"));
+		board.setWriteDate(rset.getDate("write_date"));
+		board.setId(rset.getString("id"));
+		board.setName(rset.getString("name"));
+		return board;
+	};
 
+	public List<Board> getBoardList() {
+		return jdbcTemplate.query("select * from board order by no desc", this.articleMapper);
+	}
+
+	public Board getArticle(Integer id) {
+		return jdbcTemplate.queryForObject("select * from board where id = ?", this.articleMapper, id);
 	}
 
 	public int insertBoard(String title, String content, String id, String name) {
@@ -56,4 +62,5 @@ public class BoardDao {
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
+
 }
