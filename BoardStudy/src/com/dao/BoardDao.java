@@ -9,7 +9,11 @@ import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DataSourceUtils;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.interceptor.DefaultTransactionAttribute;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import com.entity.Article;
@@ -60,19 +64,20 @@ public class BoardDao {
 		TransactionSynchronizationManager.initSynchronization();
 		Connection c = DataSourceUtils.getConnection(dataSource);
 		c.setAutoCommit(false);
+
+		PlatformTransactionManager transactionManager = new DataSourceTransactionManager(this.dataSource);
+		TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionAttribute());
+
 		int ret = -1;
 		try {
 			ret = jdbcTemplate.update("insert into article(no,title, content, write_date, id,name)"
 					+ " values((select ifnull(max(no),0) + 1 from (select no from article) b),?,?,sysdate(),?,?)",
 					title, content, id, name);
-			c.commit();
+			transactionManager.commit(status);
+
 		} catch (Exception e) {
-			c.rollback();
+			transactionManager.rollback(status);
 			throw e;
-		} finally {
-			DataSourceUtils.releaseConnection(c, dataSource);
-			TransactionSynchronizationManager.unbindResource(this.dataSource);
-			TransactionSynchronizationManager.clearSynchronization();
 		}
 		return ret;
 	}
