@@ -8,7 +8,7 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
-import com.entity.Board;
+import com.entity.Article;
 import com.jdbc.JdbcContext;
 
 public class BoardDao {
@@ -33,8 +33,8 @@ public class BoardDao {
 		this.dataSource = dataSource;
 	}
 
-	private RowMapper<Board> articleMapper = (ResultSet rset, int rowNum) -> {
-		Board board = new Board();
+	private RowMapper<Article> articleMapper = (ResultSet rset, int rowNum) -> {
+		Article board = new Article();
 		board.setNo(rset.getInt("no"));
 		board.setTitle(rset.getString("title"));
 		board.setContent(rset.getString("content"));
@@ -44,18 +44,18 @@ public class BoardDao {
 		return board;
 	};
 
-	public List<Board> getBoardList() {
-		return jdbcTemplate.query("select * from board order by no desc", this.articleMapper);
+	public List<Article> getBoardList() {
+		return jdbcTemplate.query("select * from article order by no desc", this.articleMapper);
 	}
 
-	public Board getArticle(Integer id) {
-		return jdbcTemplate.queryForObject("select * from board where id = ?", this.articleMapper, id);
+	public Article getArticle(Integer id) {
+		return jdbcTemplate.queryForObject("select * from article where id = ?", this.articleMapper, id);
 	}
 
 	public int insertBoard(String title, String content, String id, String name) {
 		return jdbcTemplate.update(
-				"insert into board(no,title, content, write_date, id,name)"
-						+ " values((select ifnull(max(no),0) + 1 from (select * from board) b),?,?,sysdate(),?,?)",
+				"insert into article(no,title, content, write_date, id,name)"
+						+ " values((select ifnull(max(no),0) + 1 from (select no from article) b),?,?,sysdate(),?,?)",
 				title, content, id, name);
 	}
 

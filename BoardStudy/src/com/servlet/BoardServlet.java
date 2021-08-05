@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.dao.BoardDao;
 import com.dao.DaoFactory;
-import com.entity.Board;
+import com.entity.Article;
 
 /**
  * Servlet implementation class BoardServlet
@@ -39,7 +39,7 @@ public class BoardServlet extends HttpServlet {
 
 		BoardDao boardDao = new DaoFactory().boardDao();
 
-		List<Board> boardList = boardDao.getBoardList();
+		List<Article> boardList = boardDao.getBoardList();
 		request.setAttribute("boardList", boardList);
 		RequestDispatcher rd = request.getRequestDispatcher("board.jsp");
 		rd.forward(request, response);

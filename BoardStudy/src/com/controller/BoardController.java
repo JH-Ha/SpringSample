@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.dao.BoardDao;
 import com.dao.DaoFactory;
-import com.entity.Board;
+import com.entity.Article;
 
 @Controller
 public class BoardController {
@@ -24,11 +24,11 @@ public class BoardController {
 	@Autowired
 	BoardDao boardDao;
 
-	@RequestMapping("board")
+	@RequestMapping("articles")
 	public String getArticles(Model model) {
 		BoardDao boardDao = new DaoFactory().boardDao();
 
-		List<Board> boardList = boardDao.getBoardList();
+		List<Article> boardList = boardDao.getBoardList();
 		model.addAttribute("boardList", boardList);
 		return "board";
 		// RequestDispatcher rd = request.getRequestDispatcher("board.jsp");
@@ -37,7 +37,7 @@ public class BoardController {
 
 	@GetMapping("article/{id}")
 	public String getArticle(Model model, @PathVariable(name = "id") Integer id) {
-		Board board = boardDao.getArticle(id);
+		Article board = boardDao.getArticle(id);
 		model.addAttribute("article", board);
 		return "article";
 	}
@@ -55,6 +55,6 @@ public class BoardController {
 		// BoardDao boardDao = new DaoFactory().boardDao();
 		// boardDao.insertBoard(title, content, user.getId(), user.getName());
 		boardDao.insertBoard(title, content, "testId", "testName");
-		response.sendRedirect(request.getContextPath() + "/board");
+		response.sendRedirect(request.getContextPath() + "/articles");
 	}
 }

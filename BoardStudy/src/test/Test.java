@@ -6,7 +6,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
 
 import com.dao.BoardDao;
-import com.entity.Board;
+import com.entity.Article;
 
 public class Test {
 	public static void main(String[] args) {
@@ -21,8 +21,8 @@ public class Test {
 		BoardDao dao = context.getBean("boardDao", BoardDao.class);
 
 		dao.insertBoard("test", "test2", "123", "테스트");
-		List<Board> boardList = dao.getBoardList();
-		for (Board board : boardList) {
+		List<Article> boardList = dao.getBoardList();
+		for (Article board : boardList) {
 			System.out.println(board);
 		}
 

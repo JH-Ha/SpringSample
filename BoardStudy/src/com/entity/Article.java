@@ -2,7 +2,7 @@ package com.entity;
 
 import java.util.Date;
 
-public class Board {
+public class Article {
 	private Integer no;
 	private String title;
 	private String content;
@@ -10,7 +10,7 @@ public class Board {
 	private String id;
 	private String name;
 
-	public Board() {
+	public Article() {
 
 	}
 
