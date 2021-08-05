@@ -1,6 +1,7 @@
 package com.controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,7 +49,7 @@ public class BoardController {
 	}
 
 	@PostMapping("write")
-	public void postArticle(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public void postArticle(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
 

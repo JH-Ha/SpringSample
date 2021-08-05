@@ -1,12 +1,16 @@
 package com.dao;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.datasource.DataSourceUtils;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import com.entity.Article;
 import com.jdbc.JdbcContext;
@@ -52,11 +56,25 @@ public class BoardDao {
 		return jdbcTemplate.queryForObject("select * from article where id = ?", this.articleMapper, id);
 	}
 
-	public int insertBoard(String title, String content, String id, String name) {
-		return jdbcTemplate.update(
-				"insert into article(no,title, content, write_date, id,name)"
-						+ " values((select ifnull(max(no),0) + 1 from (select no from article) b),?,?,sysdate(),?,?)",
-				title, content, id, name);
+	public int insertBoard(String title, String content, String id, String name) throws SQLException {
+		TransactionSynchronizationManager.initSynchronization();
+		Connection c = DataSourceUtils.getConnection(dataSource);
+		c.setAutoCommit(false);
+		int ret = -1;
+		try {
+			ret = jdbcTemplate.update("insert into article(no,title, content, write_date, id,name)"
+					+ " values((select ifnull(max(no),0) + 1 from (select no from article) b),?,?,sysdate(),?,?)",
+					title, content, id, name);
+			c.commit();
+		} catch (Exception e) {
+			c.rollback();
+			throw e;
+		} finally {
+			DataSourceUtils.releaseConnection(c, dataSource);
+			TransactionSynchronizationManager.unbindResource(this.dataSource);
+			TransactionSynchronizationManager.clearSynchronization();
+		}
+		return ret;
 	}
 
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
