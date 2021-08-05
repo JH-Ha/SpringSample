@@ -1,5 +1,6 @@
 package test;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.context.ApplicationContext;
@@ -8,8 +9,8 @@ import org.springframework.context.support.GenericXmlApplicationContext;
 import com.dao.BoardDao;
 import com.entity.Article;
 
-public class Test {
-	public static void main(String[] args) {
+public class DaoTest {
+	public static void main(String[] args) throws SQLException {
 
 		// base package to scan
 		// ApplicationContext context = new AnnotationConfigApplicationContext("dao");

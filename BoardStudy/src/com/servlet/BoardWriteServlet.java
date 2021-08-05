@@ -1,6 +1,7 @@
 package com.servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -56,7 +57,12 @@ public class BoardWriteServlet extends HttpServlet {
 
 		BoardDao boardDao = new DaoFactory().boardDao();
 		// boardDao.insertBoard(title, content, user.getId(), user.getName());
-		boardDao.insertBoard(title, content, "testId", "testName");
+		try {
+			boardDao.insertBoard(title, content, "testId", "testName");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		response.sendRedirect(request.getContextPath() + "/board");
 	}
 

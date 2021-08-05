@@ -1,6 +1,5 @@
 package com.dao;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -10,11 +9,9 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.interceptor.DefaultTransactionAttribute;
-import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import com.entity.Article;
 import com.jdbc.JdbcContext;
@@ -61,9 +58,6 @@ public class BoardDao {
 	}
 
 	public int insertBoard(String title, String content, String id, String name) throws SQLException {
-		TransactionSynchronizationManager.initSynchronization();
-		Connection c = DataSourceUtils.getConnection(dataSource);
-		c.setAutoCommit(false);
 
 		PlatformTransactionManager transactionManager = new DataSourceTransactionManager(this.dataSource);
 		TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionAttribute());
