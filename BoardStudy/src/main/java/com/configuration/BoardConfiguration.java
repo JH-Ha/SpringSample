@@ -9,7 +9,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebMvc
 @ComponentScan
 public class BoardConfiguration implements WebMvcConfigurer {
-//	@Override
+
+  //	@Override
 //	public void configureViewResolvers(ViewResolverRegistry registry) {
 //		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
 //		resolver.setPrefix("/");

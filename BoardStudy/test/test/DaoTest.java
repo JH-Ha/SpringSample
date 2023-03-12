@@ -17,7 +17,8 @@ public class DaoTest {
 
 		// ApplicationContext context = new
 		// AnnotationConfigApplicationContext(DaoFactory.class);
-		ApplicationContext context = new GenericXmlApplicationContext("applicationContext.xml");
+		ApplicationContext context = new GenericXmlApplicationContext(
+        "main/java/applicationContext.xml");
 
 		BoardDao dao = context.getBean("boardDao", BoardDao.class);
 

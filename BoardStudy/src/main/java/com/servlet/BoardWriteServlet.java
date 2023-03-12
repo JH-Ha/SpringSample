@@ -1,29 +1,28 @@
 package com.servlet;
 
+import com.dao.BoardDao;
+import com.dao.DaoFactory;
+import com.entity.User;
 import java.io.IOException;
-
+import java.sql.SQLException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.dao.DaoFactory;
-import com.dao.UserDao;
-import com.entity.User;
-
 /**
- * Servlet implementation class LoginServlet
+ * Servlet implementation class BoardServlet
  */
-@WebServlet("/login")
-public class LoginServlet extends HttpServlet {
+//@WebServlet("/write")
+public class BoardWriteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public LoginServlet() {
+	public BoardWriteServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -36,31 +35,32 @@ public class LoginServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		// response.getWriter().append("Served at: ").append(request.getContextPath());
-		response.sendRedirect(request.getContextPath() + "/login.jsp");
 
+		RequestDispatcher rd = request.getRequestDispatcher("write.jsp");
+		rd.forward(request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// TODO Auto-generated method stub
 		// doGet(request, response);
-		String id = request.getParameter("id");
-		String password = request.getParameter("password");
-
-		UserDao userDao = new DaoFactory().userDao();
-		User user = userDao.get(id, password);
 		HttpSession session = request.getSession();
-		if (user != null) {
-			session.setAttribute("user", user);
-			response.sendRedirect(request.getContextPath() + "/board");
-		} else {
-			response.sendRedirect(request.getContextPath() + "/error.jsp");
-		}
+		User user = (User) session.getAttribute("user");
+		String title = request.getParameter("title");
+		String content = request.getParameter("content");
 
+		BoardDao boardDao = new DaoFactory().boardDao();
+		// boardDao.insertBoard(title, content, user.getId(), user.getName());
+		try {
+			boardDao.insertBoard(title, content, "testId", "testName");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		response.sendRedirect(request.getContextPath() + "/board");
 	}
 
 }

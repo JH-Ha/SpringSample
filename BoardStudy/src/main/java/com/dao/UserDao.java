@@ -1,12 +1,11 @@
 package com.dao;
 
+import com.connection.ConnectionMaker;
+import com.entity.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import com.connection.ConnectionMaker;
-import com.entity.User;
 
 public class UserDao {
 	private ConnectionMaker connectionMaker;

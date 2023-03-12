@@ -1,12 +1,11 @@
 package com.service;
 
 import java.sql.SQLException;
-
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.interceptor.DefaultTransactionAttribute;
 
-public class ArticleServiceTx implements ArticleService {
+public class ArticleServiceTx implements com.service.ArticleService {
 
 	ArticleService articleService;
 	PlatformTransactionManager transactionManager;

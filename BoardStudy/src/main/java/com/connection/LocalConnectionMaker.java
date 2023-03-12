@@ -4,12 +4,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import com.connection.ConnectionMaker;
-
 public class LocalConnectionMaker implements ConnectionMaker {
 
 	@Override
-	public Connection makeConnection() throws ClassNotFoundException, SQLException {
+	public Connection makeConnection() throws SQLException {
 		String url = "jdbc:mysql://localhost/study?serverTimezone=UTC";
 
 		String dbId = "root";
