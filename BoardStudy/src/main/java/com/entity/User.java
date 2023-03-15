@@ -1,11 +1,11 @@
 package com.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
-@Entity
+@Entity(name = "user_table")
 public class User {
 
   @Id
@@ -24,6 +24,14 @@ public class User {
     this.id = id;
     this.name = name;
     this.password = password;
+  }
+
+  public Long getSeq() {
+    return seq;
+  }
+
+  public void setSeq(Long seq) {
+    this.seq = seq;
   }
 
   public String getId() {
@@ -49,5 +57,4 @@ public class User {
   public void setPassword(String password) {
     this.password = password;
   }
-
 }
