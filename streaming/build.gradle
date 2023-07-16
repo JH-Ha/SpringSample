@@ -29,6 +29,12 @@ dependencies {
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	// ffmpeg cli wrapper
+	implementation 'net.bramp.ffmpeg:ffmpeg:0.7.0'
+
+	// ffmpeg
+	implementation 'org.bytedeco:ffmpeg-platform:6.0-1.5.9'
 }
 
 tasks.named('test') {
